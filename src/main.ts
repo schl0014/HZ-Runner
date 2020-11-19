@@ -132,7 +132,7 @@ class Game {
         // Clear the entire canvas
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        ctx.fillText("UP arrow = middle | LEFT arrow = left | RIGHT arrow = right", leftLane, 40);
+        this.writeTextToCanvas(ctx, "UP arrow = middle | LEFT arrow = left | RIGHT arrow = right", this.canvas.width / 2, 40, 14);
 
         // Render the player
         // Center the image in the lane with the x coordinates
@@ -153,6 +153,30 @@ class Game {
         // Call this method again on the next animation frame
         // The user must hit F5 to reload the game
         requestAnimationFrame(this.step);
+    }
+
+    /**
+   * Writes text to the canvas
+   * @param {string} text - Text to write
+   * @param {number} fontSize - Font size in pixels
+   * @param {number} xCoordinate - Horizontal coordinate in pixels
+   * @param {number} yCoordinate - Vertical coordinate in pixels
+   * @param {string} alignment - Where to align the text
+   * @param {string} color - The color of the text
+   */
+    public writeTextToCanvas(
+        ctx: CanvasRenderingContext2D,
+        text: string,
+        xCoordinate: number,
+        yCoordinate: number,
+        fontSize: number = 20,
+        color: string = "red",
+        alignment: CanvasTextAlign = "center"
+    ) {
+        ctx.font = `${fontSize}px sans-serif`;
+        ctx.fillStyle = color;
+        ctx.textAlign = alignment;
+        ctx.fillText(text, xCoordinate, yCoordinate);
     }
 
     /**

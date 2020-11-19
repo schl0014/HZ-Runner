@@ -129,7 +129,7 @@ class Game {
             }
             const ctx = this.canvas.getContext('2d');
             ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            ctx.fillText("UP arrow = middle | LEFT arrow = left | RIGHT arrow = right", leftLane, 40);
+            this.writeTextToCanvas(ctx, "UP arrow = middle | LEFT arrow = left | RIGHT arrow = right", this.canvas.width / 2, 40, 14);
             ctx.drawImage(this.playerImage, this.playerPositionX - this.playerImage.width / 2, this.canvas.height - 150);
             ctx.drawImage(this.trophyImage, this.trophyPositionX - this.trophyImage.width / 2, this.trophyPositionY);
             requestAnimationFrame(this.step);
@@ -146,6 +146,12 @@ class Game {
         this.playerPositionX = this.canvas.width / 2;
         console.log('start animation');
         requestAnimationFrame(this.step);
+    }
+    writeTextToCanvas(ctx, text, xCoordinate, yCoordinate, fontSize = 20, color = "red", alignment = "center") {
+        ctx.font = `${fontSize}px sans-serif`;
+        ctx.fillStyle = color;
+        ctx.textAlign = alignment;
+        ctx.fillText(text, xCoordinate, yCoordinate);
     }
     randomInteger(min, max) {
         return Math.round(Math.random() * (max - min) + min);
