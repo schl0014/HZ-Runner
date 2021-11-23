@@ -25,7 +25,7 @@ export default class Game {
         this.trophyImage = Game.loadNewImage('assets/img/objects/gold_trophy.png');
         this.trophyPositionX = this.canvas.width / 2;
         this.trophyPositionY = 60;
-        this.trophySpeed = 5;
+        this.trophySpeed = 1;
         this.playerImage = Game.loadNewImage('./assets/img/players/character_robot_walk0.png');
         this.playerPositionX = this.canvas.width / 2;
         console.log('start animation');
@@ -64,7 +64,7 @@ export default class Game {
             }
             this.trophyImage = Game.loadNewImage('assets/img/objects/gold_trophy.png');
             this.trophyPositionY = 60;
-            this.trophySpeed = 5;
+            this.trophySpeed = 1;
         }
         if (this.trophyPositionY + this.trophyImage.height > this.canvas.height) {
             const random = Game.randomInteger(1, 3);
@@ -79,7 +79,7 @@ export default class Game {
             }
             this.trophyImage = Game.loadNewImage('assets/img/objects/gold_trophy.png');
             this.trophyPositionY = 60;
-            this.trophySpeed = 5;
+            this.trophySpeed = 1;
         }
         return false;
     }

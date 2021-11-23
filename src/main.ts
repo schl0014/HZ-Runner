@@ -59,7 +59,7 @@ export default class Game {
     this.trophyImage = Game.loadNewImage('assets/img/objects/gold_trophy.png');
     this.trophyPositionX = this.canvas.width / 2;
     this.trophyPositionY = 60;
-    this.trophySpeed = 5;
+    this.trophySpeed = 1;
 
     // Set the player at the center
     this.playerImage = Game.loadNewImage('./assets/img/players/character_robot_walk0.png');
@@ -126,7 +126,7 @@ export default class Game {
 
       this.trophyImage = Game.loadNewImage('assets/img/objects/gold_trophy.png');
       this.trophyPositionY = 60;
-      this.trophySpeed = 5;
+      this.trophySpeed = 1;
     }
 
     // Collision detection of objects with bottom of the canvas
@@ -145,7 +145,7 @@ export default class Game {
 
       this.trophyImage = Game.loadNewImage('assets/img/objects/gold_trophy.png');
       this.trophyPositionY = 60;
-      this.trophySpeed = 5;
+      this.trophySpeed = 1;
     }
     return false;
   }
