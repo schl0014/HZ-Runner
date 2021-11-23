@@ -1,4 +1,4 @@
-import Game from './main.js';
+import Game from './Game.js';
 
 /**
  * Represents a basic Game Loop based on `requestAnimationFrame()`.
