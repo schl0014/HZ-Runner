@@ -8,7 +8,7 @@ export default class Game {
     canvas;
     gameloop;
     player;
-    goldTrophy;
+    scoringObjects;
     silverTrophy;
     redCross;
     lightningBolt;
@@ -17,6 +17,7 @@ export default class Game {
         this.canvas = canvas;
         this.canvas.width = window.innerWidth / 3;
         this.canvas.height = window.innerHeight;
+        this.scoringObjects = [];
         this.createRandomScoringObject();
         this.player = new Player(this.canvas);
         this.totalScore = 0;
@@ -28,46 +29,19 @@ export default class Game {
         this.player.move();
     }
     update(elapsed) {
-        if (this.goldTrophy !== null) {
-            this.goldTrophy.move(elapsed);
-            if (this.player.collidesWithGoldTrophy(this.goldTrophy)) {
-                this.totalScore += this.goldTrophy.getPoints();
-                this.createRandomScoringObject();
-            }
-            else if (this.goldTrophy.collidesWithCanvasBottom()) {
-                this.createRandomScoringObject();
-            }
+        if (this.gameloop.frameCount % 45 === 0) {
+            this.createRandomScoringObject();
         }
-        if (this.silverTrophy !== null) {
-            this.silverTrophy.move(elapsed);
-            if (this.player.collidesWithSilverTrophy(this.silverTrophy)) {
-                this.totalScore += this.silverTrophy.getPoints();
-                this.createRandomScoringObject();
+        this.scoringObjects.forEach((scoringObject) => {
+            scoringObject.move(elapsed);
+            if (this.player.collidesWith(scoringObject)) {
+                this.totalScore += scoringObject.getPoints();
+                this.removeItemFromScoringObjects(scoringObject);
             }
-            else if (this.silverTrophy.collidesWithCanvasBottom()) {
-                this.createRandomScoringObject();
+            else if (scoringObject.collidesWithCanvasBottom()) {
+                this.removeItemFromScoringObjects(scoringObject);
             }
-        }
-        if (this.redCross !== null) {
-            this.redCross.move(elapsed);
-            if (this.player.collidesWithRedCross(this.redCross)) {
-                this.totalScore += this.redCross.getPoints();
-                this.createRandomScoringObject();
-            }
-            else if (this.redCross.collidesWithCanvasBottom()) {
-                this.createRandomScoringObject();
-            }
-        }
-        if (this.lightningBolt !== null) {
-            this.lightningBolt.move(elapsed);
-            if (this.player.collidesWithLightningBolt(this.lightningBolt)) {
-                this.totalScore += this.lightningBolt.getPoints();
-                this.createRandomScoringObject();
-            }
-            else if (this.lightningBolt.collidesWithCanvasBottom()) {
-                this.createRandomScoringObject();
-            }
-        }
+        });
         return false;
     }
     render() {
@@ -76,40 +50,31 @@ export default class Game {
         this.writeTextToCanvas('UP arrow = middle | LEFT arrow = left | RIGHT arrow = right', this.canvas.width / 2, 40, 14);
         this.drawScore();
         this.player.draw(ctx);
-        if (this.goldTrophy !== null) {
-            this.goldTrophy.draw(ctx);
-        }
-        else if (this.silverTrophy !== null) {
-            this.silverTrophy.draw(ctx);
-        }
-        else if (this.redCross !== null) {
-            this.redCross.draw(ctx);
-        }
-        else if (this.lightningBolt !== null) {
-            this.lightningBolt.draw(ctx);
-        }
+        this.scoringObjects.forEach((scoringObject) => {
+            scoringObject.draw(ctx);
+        });
     }
     drawScore() {
         this.writeTextToCanvas(`Score: ${this.totalScore}`, this.canvas.width / 2, 80, 16);
     }
     createRandomScoringObject() {
-        this.goldTrophy = null;
-        this.silverTrophy = null;
-        this.redCross = null;
-        this.lightningBolt = null;
         const random = Game.randomInteger(1, 4);
         if (random === 1) {
-            this.goldTrophy = new GoldTrophy(this.canvas);
+            this.scoringObjects.push(new GoldTrophy(this.canvas));
         }
         if (random === 2) {
-            this.silverTrophy = new SilverTrophy(this.canvas);
+            this.scoringObjects.push(new SilverTrophy(this.canvas));
         }
         if (random === 3) {
-            this.redCross = new RedCross(this.canvas);
+            this.scoringObjects.push(new RedCross(this.canvas));
         }
         if (random === 4) {
-            this.lightningBolt = new LightningBolt(this.canvas);
+            this.scoringObjects.push(new LightningBolt(this.canvas));
         }
+    }
+    removeItemFromScoringObjects(item) {
+        const index = this.scoringObjects.indexOf(item);
+        this.scoringObjects.splice(index, 1);
     }
     writeTextToCanvas(text, xCoordinate, yCoordinate, fontSize = 20, color = 'red', alignment = 'center') {
         const ctx = this.canvas.getContext('2d');

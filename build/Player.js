@@ -30,40 +30,12 @@ export default class Player {
     draw(ctx) {
         ctx.drawImage(this.image, this.positionX - this.image.width / 2, this.canvas.height - 150);
     }
-    collidesWithGoldTrophy(goldTrophy) {
-        if (this.positionX < goldTrophy.getPositionX() + goldTrophy.getImageWidth()
-            && this.positionX + this.image.width > goldTrophy.getPositionX()
-            && this.canvas.height - 150 < goldTrophy.getPositionY() + goldTrophy.getImageHeight()
-            && this.canvas.height - 150 + this.image.height > goldTrophy.getPositionY()) {
-            return true;
-        }
-        return false;
-    }
-    collidesWithSilverTrophy(silverTrophy) {
-        if (this.positionX < silverTrophy.getPositionX() + silverTrophy.getImageWidth()
-            && this.positionX + this.image.width > silverTrophy.getPositionX()
-            && this.canvas.height - 150 < silverTrophy.getPositionY()
-                + silverTrophy.getImageHeight()
-            && this.canvas.height - 150 + this.image.height > silverTrophy.getPositionY()) {
-            return true;
-        }
-        return false;
-    }
-    collidesWithRedCross(redCross) {
-        if (this.positionX < redCross.getPositionX() + redCross.getImageWidth()
-            && this.positionX + this.image.width > redCross.getPositionX()
-            && this.canvas.height - 150 < redCross.getPositionY() + redCross.getImageHeight()
-            && this.canvas.height - 150 + this.image.height > redCross.getPositionY()) {
-            return true;
-        }
-        return false;
-    }
-    collidesWithLightningBolt(lightningBolt) {
-        if (this.positionX < lightningBolt.getPositionX() + lightningBolt.getImageWidth()
-            && this.positionX + this.image.width > lightningBolt.getPositionX()
-            && this.canvas.height - 150 < lightningBolt.getPositionY()
-                + lightningBolt.getImageHeight()
-            && this.canvas.height - 150 + this.image.height > lightningBolt.getPositionY()) {
+    collidesWith(scoringObject) {
+        if (this.positionX < scoringObject.getPositionX() + scoringObject.getImageWidth()
+            && this.positionX + this.image.width > scoringObject.getPositionX()
+            && this.canvas.height - 150 < scoringObject.getPositionY()
+                + scoringObject.getImageHeight()
+            && this.canvas.height - 150 + this.image.height > scoringObject.getPositionY()) {
             return true;
         }
         return false;
