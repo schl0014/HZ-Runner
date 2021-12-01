@@ -1,15 +1,14 @@
 import ScoringObject from './ScoringObject.js';
 
-export default class LightningBolt extends ScoringObject {
+export default class BronsTrophy extends ScoringObject {
   /**
    * Construct a new instance of this class
    *
    * @param canvas the canvas on which the player should exist
    */
   public constructor(canvas: HTMLCanvasElement) {
-    // Call the superclass constructor
     super(canvas);
-    this.image = LightningBolt.loadNewImage('assets/img/objects/titled_yellow_power_icon.png');
-    this.points = -10;
+    this.image = BronsTrophy.loadNewImage('assets/img/objects/bronze_trophy.png');
+    this.points = 10;
   }
 }

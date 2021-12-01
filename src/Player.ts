@@ -1,8 +1,5 @@
 import KeyListener from './KeyListener.js';
-import GoldTrophy from './GoldTrophy.js';
-import LightningBolt from './LightningBolt.js';
-import RedCross from './RedCross.js';
-import SilverTrophy from './SilverTrophy.js';
+import ScoringObject from './ScoringObject.js';
 
 export default class Player {
   private canvas: HTMLCanvasElement;
@@ -67,76 +64,18 @@ export default class Player {
   }
 
   /**
-   * Collision detection of gold trophy and player
+   * Collision detection of  a scoring opbject and player
    * Use bounding box detection method: https://computersciencewiki.org/index.php/Bounding_boxes
    *
-   * @param goldTrophy the specified GoldTrophy object
-   * @returns `true` if the player collides with the GoldTrophy
+   * @param scoringObject the specified ScoringObject object
+   * @returns `true` if the player collides with the specified ScoringObject
    */
-  public collidesWithGoldTrophy(goldTrophy: GoldTrophy): boolean {
-    if (this.positionX < goldTrophy.getPositionX() + goldTrophy.getImageWidth()
-            && this.positionX + this.image.width > goldTrophy.getPositionX()
-            && this.canvas.height - 150 < goldTrophy.getPositionY() + goldTrophy.getImageHeight()
-            && this.canvas.height - 150 + this.image.height > goldTrophy.getPositionY()
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Collision detection of silver trophy and player
-   * Use bounding box detection method: https://computersciencewiki.org/index.php/Bounding_boxes
-   *
-   * @param silverTrophy the specified SilverTrophy object
-   * @returns `true` if the player collides with the specified SilverTrophy
-   */
-  public collidesWithSilverTrophy(silverTrophy: SilverTrophy): boolean {
-    if (this.positionX < silverTrophy.getPositionX() + silverTrophy.getImageWidth()
-            && this.positionX + this.image.width > silverTrophy.getPositionX()
-            && this.canvas.height - 150 < silverTrophy.getPositionY()
-            + silverTrophy.getImageHeight()
-            && this.canvas.height - 150 + this.image.height > silverTrophy.getPositionY()
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Collision detection of red cross and player
-   * Use bounding box detection method: https://computersciencewiki.org/index.php/Bounding_boxes
-   *
-   * @param redCross the specified RedCross object
-   * @returns `true` if the player collides with the specified RedCross
-   */
-  public collidesWithRedCross(redCross: RedCross): boolean {
-    if (this.positionX < redCross.getPositionX() + redCross.getImageWidth()
-            && this.positionX + this.image.width > redCross.getPositionX()
-            && this.canvas.height - 150 < redCross.getPositionY() + redCross.getImageHeight()
-            && this.canvas.height - 150 + this.image.height > redCross.getPositionY()
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Collision detection of lightning bolt and player
-   * Use bounding box detection method: https://computersciencewiki.org/index.php/Bounding_boxes
-   *
-   * @param lightningBolt the specified LightningBolt object
-   * @returns `true` if the player collides with the specified LightningBolt
-   */
-  public collidesWithLightningBolt(lightningBolt: LightningBolt): boolean {
-    if (this.positionX < lightningBolt.getPositionX() + lightningBolt.getImageWidth()
-            && this.positionX + this.image.width > lightningBolt.getPositionX()
-            && this.canvas.height - 150 < lightningBolt.getPositionY()
-            + lightningBolt.getImageHeight()
-            && this.canvas.height - 150 + this.image.height > lightningBolt.getPositionY()
+  public collidesWith(scoringObject: ScoringObject): boolean {
+    if (this.positionX < scoringObject.getPositionX() + scoringObject.getImageWidth()
+            && this.positionX + this.image.width > scoringObject.getPositionX()
+            && this.canvas.height - 150 < scoringObject.getPositionY()
+            + scoringObject.getImageHeight()
+            && this.canvas.height - 150 + this.image.height > scoringObject.getPositionY()
     ) {
       return true;
     }

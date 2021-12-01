@@ -4,7 +4,8 @@ import GoldTrophy from './GoldTrophy.js';
 import LightningBolt from './LightningBolt.js';
 import RedCross from './RedCross.js';
 import SilverTrophy from './SilverTrophy.js';
-
+import BronsTrophy from './BronsTrophy.js';
+import ScoringObject from './ScoringObject.js';
 /**
  * Main class of this Game.
  */
@@ -17,14 +18,8 @@ export default class Game {
   // The player on the canvas
   private player: Player;
 
-  // The objects on the canvas
-  private goldTrophy: GoldTrophy;
-
-  private silverTrophy: SilverTrophy;
-
-  private redCross: RedCross;
-
-  private lightningBolt: LightningBolt;
+  //  the scoringobject on the canvas
+  private scoringobjects: ScoringObject[];
 
   // Score
   private totalScore: number;
@@ -36,6 +31,7 @@ export default class Game {
    */
   public constructor(canvas: HTMLElement) {
     this.canvas = <HTMLCanvasElement>canvas;
+    this.scoringobjects = [];
 
     // Resize the canvas so it looks more like a Runner game
     this.canvas.width = window.innerWidth / 3;
@@ -73,51 +69,21 @@ export default class Game {
    * @returns `true` if the game should stop animation
    */
   public update(elapsed: number): boolean {
-    // TODO this is ... sooo much code for so little
-    if (this.goldTrophy !== null) {
-      this.goldTrophy.move(elapsed);
-
-      if (this.player.collidesWithGoldTrophy(this.goldTrophy)) {
-        this.totalScore += this.goldTrophy.getPoints();
-        this.createRandomScoringObject();
-      } else if (this.goldTrophy.collidesWithCanvasBottom()) {
-        this.createRandomScoringObject();
-      }
+    if (this.gameloop.frameCount % 100 === 0) {
+      this.createRandomScoringObject();
     }
 
-    // Same but for silver trophies
-    if (this.silverTrophy !== null) {
-      this.silverTrophy.move(elapsed);
+    for (let j = 0; j < this.scoringobjects.length; j++) {
+      // TODO this is ... sooo much code for so little
+      if (this.scoringobjects !== null) {
+        this.scoringobjects[j].move(elapsed);
 
-      if (this.player.collidesWithSilverTrophy(this.silverTrophy)) {
-        this.totalScore += this.silverTrophy.getPoints();
-        this.createRandomScoringObject();
-      } else if (this.silverTrophy.collidesWithCanvasBottom()) {
-        this.createRandomScoringObject();
-      }
-    }
-
-    // And red crosses
-    if (this.redCross !== null) {
-      this.redCross.move(elapsed);
-
-      if (this.player.collidesWithRedCross(this.redCross)) {
-        this.totalScore += this.redCross.getPoints();
-        this.createRandomScoringObject();
-      } else if (this.redCross.collidesWithCanvasBottom()) {
-        this.createRandomScoringObject();
-      }
-    }
-
-    // There should be some way to solve this mess right
-    if (this.lightningBolt !== null) {
-      this.lightningBolt.move(elapsed);
-
-      if (this.player.collidesWithLightningBolt(this.lightningBolt)) {
-        this.totalScore += this.lightningBolt.getPoints();
-        this.createRandomScoringObject();
-      } else if (this.lightningBolt.collidesWithCanvasBottom()) {
-        this.createRandomScoringObject();
+        if (this.player.collidesWith(this.scoringobjects[j])) {
+          this.totalScore += this.scoringobjects[j].getPoints();
+          this.scoringobjects.splice(0, 1);
+        } else if (this.scoringobjects[j].collidesWithCanvasBottom()) {
+          this.scoringobjects.splice(0, 1);
+        }
       }
     }
     // Move objects
@@ -140,14 +106,10 @@ export default class Game {
 
     this.player.draw(ctx);
 
-    if (this.goldTrophy !== null) {
-      this.goldTrophy.draw(ctx);
-    } else if (this.silverTrophy !== null) {
-      this.silverTrophy.draw(ctx);
-    } else if (this.redCross !== null) {
-      this.redCross.draw(ctx);
-    } else if (this.lightningBolt !== null) {
-      this.lightningBolt.draw(ctx);
+    if (this.scoringobjects !== null) {
+      for (let i = 0; i < this.scoringobjects.length; i++) {
+        this.scoringobjects[i].draw(ctx);
+      }
     }
   }
 
@@ -162,27 +124,24 @@ export default class Game {
    * Create a random scoring object and clear the other scoring objects by setting them to `null`.
    */
   private createRandomScoringObject(): void {
-    this.goldTrophy = null;
-    this.silverTrophy = null;
-    this.redCross = null;
-    this.lightningBolt = null;
-
-    const random = Game.randomInteger(1, 4);
-
+    const random = Game.randomInteger(1, 5);
     if (random === 1) {
-      this.goldTrophy = new GoldTrophy(this.canvas);
+      this.scoringobjects.push(new GoldTrophy(this.canvas));
     }
 
     if (random === 2) {
-      this.silverTrophy = new SilverTrophy(this.canvas);
+      this.scoringobjects.push(new SilverTrophy(this.canvas));
     }
 
     if (random === 3) {
-      this.redCross = new RedCross(this.canvas);
+      this.scoringobjects.push(new RedCross(this.canvas));
     }
 
     if (random === 4) {
-      this.lightningBolt = new LightningBolt(this.canvas);
+      this.scoringobjects.push(new LightningBolt(this.canvas));
+    }
+    if (random === 5) {
+      this.scoringobjects.push(new BronsTrophy(this.canvas));
     }
   }
 
